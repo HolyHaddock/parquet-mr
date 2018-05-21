@@ -129,6 +129,8 @@ public class DumpCommand extends ArgsOnlyCommand {
         Configuration conf = new Configuration();
         Path inpath = new Path(input);
 
+      conf.set("parquet.strings.signed-min-max.enabled", "true");
+
         ParquetMetadata metaData = ParquetFileReader.readFooter(conf, inpath, NO_FILTER);
         MessageType schema = metaData.getFileMetaData().getSchema();
 
@@ -148,6 +150,8 @@ public class DumpCommand extends ArgsOnlyCommand {
 
     public static void dump(PrettyPrintWriter out, ParquetMetadata meta, MessageType schema, Path inpath, boolean showmd, boolean showdt, Set<String> showColumns) throws IOException {
         Configuration conf = new Configuration();
+
+        conf.set("parquet.strings.signed-min-max.enabled", "true");
 
         List<BlockMetaData> blocks = meta.getBlocks();
         List<ColumnDescriptor> columns = schema.getColumns();
